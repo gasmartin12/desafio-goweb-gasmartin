@@ -29,7 +29,7 @@ func (s *Service) GetTicketsByCountry() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(200, tickets)
+		c.JSON(http.StatusOK, tickets)
 	}
 }
 
@@ -44,6 +44,6 @@ func (s *Service) AverageDestination() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(200, avg)
+		c.JSON(http.StatusOK, avg)
 	}
 }

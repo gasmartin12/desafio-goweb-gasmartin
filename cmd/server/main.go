@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/csv"
 	"fmt"
+	"net/http"
 	"os"
 	"strconv"
 
@@ -17,22 +18,22 @@ func main() {
 
 	// Cargo csv.
 	list, err := LoadTicketsFromFile("tickets.csv")
+	if err != nil {
+		panic("Couldn't load tickets")
+	}
 	repo := tickets.NewRepository(list)
 	service := tickets.NewService(repo)
 	ticket := handler.NewService(service)
 
-	if err != nil {
-		panic("Couldn't load tickets")
-	}
-
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) { c.String(200, "pong") })
+	r.GET("/ping", func(c *gin.Context) { c.String(http.StatusOK, "pong") })
 	// Rutas a desarollar:
 
 	// GET - "/ticket/getByCountry/:dest"
-	// GET - "/ticket/getAverage/:dest"
 	r.GET("/ticket/getByCountry/:dest", ticket.GetTicketsByCountry())
 	// localhost:8080/ticket/getByCountry/Finland -> 8
+
+	// GET - "/ticket/getAverage/:dest"
 	r.GET("/ticket/getAverage/:dest", ticket.AverageDestination())
 	//localhost:8080/ticket/getAverage/Finland -> 953
 	if err := r.Run(); err != nil {

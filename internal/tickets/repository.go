@@ -2,7 +2,6 @@ package tickets
 
 import (
 	"context"
-
 	"fmt"
 
 	"github.com/gasmartin12/desafio-goweb-gasmartin/internal/domain"
